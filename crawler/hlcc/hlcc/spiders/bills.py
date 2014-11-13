@@ -47,18 +47,18 @@ def number(value):
     return int(tmp.strip())
 
 def split_orz_format(value):
-    # If there is only 1 value, try to split the value by 、|，|。,
+    # If there is only 1 value, try to split the value by 、(\u3001)|，(\uff0c)|。(\u3002),
     # Because format is not consistent
     if len(value) == 1:
-        tmp = value[0]
+        tmp = value[0].strip()
 
         split_token = None
 
         if u"\uff0c" in tmp:
             split_token = u"\uff0c"
-        elif u"\u3002" in tmp:
+        elif u"\u3002" in tmp and (not tmp.endswith(u"\u3002") if tmp.count(u"\u3002") == 1 else True):
             split_token = u"\u3002"
-        else:
+        elif u"\u3001" in tmp:
             split_token = u"\u3001"
 
         value = tmp.split(split_token)
@@ -112,6 +112,7 @@ class Spider(scrapy.Spider):
 
         item["resolusion_sitting"] = " ".join(tmp[:-1])
         item["type"] = tmp[-1]
+        item["links"] = response.url
 
         rows = sel.xpath('//div[@class="area-2"]/table/tr[4]//tr')
 
