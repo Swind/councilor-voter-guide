@@ -21,7 +21,7 @@ BOT_NAME = 'cyscc'
 SPIDER_MODULES = ['cyscc.spiders']
 NEWSPIDER_MODULE = 'cyscc.spiders'
 
-LOG_FILE = 'log.txt'
+#LOG_FILE = 'log.txt'
 
 FEED_EXPORTERS = {
     'json': 'crawler_lib.misc.UnicodeJsonItemExporter',
